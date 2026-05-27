@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Kiwi nativeBridge PoC</title>
+</head>
+<body>
+<h1>Kiwi nativeBridge PoC</h1>
+
+<button id="btn">Call nativeBridge.getAccessToken()</button>
+<pre id="log"></pre>
+
+<script>
+  function log(msg) {
+    var el = document.getElementById('log');
+    el.textContent += msg + "\n";
+    console.log(msg);
+  }
+
+  window.onload = function () {
+    if (window.nativeBridge) {
+      log("nativeBridge object is PRESENT in window.");
+    } else {
+      log("nativeBridge is NOT present in window.");
+    }
+  };
+
+  document.getElementById('btn').onclick = function () {
+    try {
+      if (!window.nativeBridge) {
+        log("nativeBridge is undefined, cannot call getAccessToken.");
+        return;
+      }
+      log("Calling nativeBridge.getAccessToken(\"poc-uuid\", false) ...");
+      // Signature inferred from code: getAccessToken(String uuid, boolean forceRefresh)
+      window.nativeBridge.getAccessToken("poc-uuid", false);
+      log("Call executed without JS error. Check native behavior / logs.");
+    } catch (e) {
+      log("JS exception: " + e);
+    }
+  };
+</script>
+</body>
+</html>
